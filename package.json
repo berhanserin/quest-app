@@ -15,8 +15,10 @@
   "author": "Berhan Serin",
   "license": "MIT",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "express-async-handler": "^1.2.0",
     "mongoose": "^6.0.12",
     "prettier": "^2.4.1"
   },
