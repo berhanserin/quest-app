@@ -1,10 +1,7 @@
 const express = require('express')
 const route = express.Router()
+const { register } = require('../controllers/auth')
 
-route.get('/', (req, res) => {
-    res.send('Auth İndex')
-})
-
-route.get('/register', (req, rres) => {})
+route.route('/register').post(register)
 
 module.exports = route
