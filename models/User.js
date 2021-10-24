@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 const Schema = mongoose.Schema
 
 const UserSchema = new Schema(
@@ -12,7 +13,7 @@ const UserSchema = new Schema(
         email: {
             type: Schema.Types.String,
             required: [true, 'Plase provide a email'],
-            unique: [true, 'Please try different email'],
+            unique: true,
             match: [
                 /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
                 'Please provide a valid email',
@@ -33,6 +34,15 @@ const UserSchema = new Schema(
     },
     { timestamps: true }
 )
+
+UserSchema.methods.generateJWTToken = function () {
+    const { JWT_Secret_Key, JWT_EXPIRE } = process.env
+    const payload = { id: this._id, name: this.name }
+
+    const token = jwt.sign(payload, JWT_Secret_Key, { expiresIn: JWT_EXPIRE })
+
+    return token
+}
 
 UserSchema.pre('save', function (next) {
     if (this.isNew) {
